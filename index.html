@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Login Form</title>
+    <!-- <script src="script.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Login</h2>
+      <form id="loginForm" action="submit_form.php" method="post">
+        <label for="email">Email:</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Enter email"
+          required
+        />
+
+        <label for="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          placeholder="Enter password"
+          required
+        />
+
+        <input type="checkbox" id="showPassword" /> Show Password
+        <br />
+        <br />
+        <button type="submit" id="signInButton">SIGN IN</button>
+
+        <div class="links">
+          <a href="#">Forgot Username / Password?</a><br />
+          <br />
+          <span>Don't have an account? <a href="#">Sign up</a></span>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    // Show/Hide Password Functionality
+    $("#showPassword").on("change", function () {
+      const passwordField = $("#password");
+      const type = $(this).is(":checked") ? "text" : "password";
+      passwordField.attr("type", type);
+    });
+
+    // On Button Click - Alert Submitted Data
+    $("#loginForm").on("submit", function (event) {
+      event.preventDefault(); // Prevent form submission
+
+      const email = $("#email").val();
+      const password = $("#password").val();
+
+      alert("Submitted Data:\nEmail: " + email + "\nPassword: " + password);
+    });
+
+    // On Button Click - Submit Form Data using AJAX
+    $("#loginForm").on("submit", function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const formData = {
+        email: $("#email").val(),
+        password: $("#password").val(),
+      };
+
+      $.ajax({
+        type: "POST",
+        url: "submit_form.php",
+        data: formData,
+        success: function (response) {
+          alert("Server Response: " + response);
+        },
+        error: function () {
+          alert("An error occurred. Please try again.");
+        },
+      });
+    });
+  </script>
+</html>
